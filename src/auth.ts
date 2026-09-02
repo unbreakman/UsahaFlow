@@ -7,6 +7,7 @@ import pool from "@/lib/db";
 import type { RowDataPacket } from "mysql2";
 
 const config: NextAuthConfig = {
+  trustHost: true,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
