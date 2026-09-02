@@ -1,13 +1,15 @@
 import NextAuth from "next-auth";
-import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import pool from "@/lib/db";
 import type { RowDataPacket } from "mysql2";
+import { authConfig } from "@/auth.config";
 
-const config: NextAuthConfig = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   trustHost: true,
+  session: { strategy: "jwt" },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -43,8 +45,8 @@ const config: NextAuthConfig = {
       },
     }),
   ],
-  session: { strategy: "jwt" },
   callbacks: {
+    ...authConfig.callbacks,
     async signIn({ user, account }) {
       if (account?.provider === "google" && user.email) {
         const [rows] = await pool.query<RowDataPacket[]>(
@@ -86,6 +88,4 @@ const config: NextAuthConfig = {
       return session;
     },
   },
-};
-
-export const { handlers, signIn, signOut, auth } = NextAuth(config);
+});
