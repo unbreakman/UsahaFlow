@@ -40,56 +40,90 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-        <h1 className="mb-1 text-2xl font-bold text-gray-900">UsahaFlow</h1>
-        <p className="mb-6 text-sm text-gray-500">Buat akun baru</p>
+    <main className="auth-shell flex min-h-dvh items-center justify-center px-4 py-8 sm:px-6">
+      <div className="auth-card grid w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 shadow-2xl shadow-emerald-950/10 backdrop-blur md:grid-cols-[0.9fr_1.1fr]">
+        <section className="relative hidden overflow-hidden bg-[#123b35] p-10 text-white md:flex md:flex-col md:justify-between lg:p-14">
+          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border-[28px] border-[#f4b860]/20" />
+          <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full border-[36px] border-[#e97d60]/20" />
+          <div className="relative">
+            <div className="mb-12 flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f4b860] text-lg font-black text-[#123b35]">U</span>
+              <span className="text-lg font-semibold tracking-tight">UsahaFlow</span>
+            </div>
+            <p className="mb-4 max-w-xs text-sm font-medium uppercase tracking-[0.2em] text-[#f4b860]">Mulai langkah baru</p>
+            <h2 className="max-w-sm text-4xl font-semibold leading-tight tracking-[-0.04em] lg:text-5xl">Bikin usahamu bergerak maju.</h2>
+          </div>
+          <p className="relative max-w-xs text-sm leading-6 text-emerald-100/75">Bangun kebiasaan kerja yang lebih teratur sejak hari pertama.</p>
+        </section>
 
-        <form onSubmit={handleRegister} className="space-y-3">
+        <section className="p-7 sm:p-10 lg:p-14">
+          <div className="mb-8 md:hidden">
+            <div className="mb-8 flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#123b35] text-lg font-black text-[#f4b860]">U</span>
+              <span className="text-lg font-semibold tracking-tight text-[#123b35]">UsahaFlow</span>
+            </div>
+          </div>
+          <div className="mb-8">
+            <p className="mb-2 text-sm font-semibold text-[#df735d]">Selamat datang</p>
+            <h1 className="text-3xl font-semibold tracking-[-0.04em] text-[#123b35] sm:text-4xl">Buat akun baru</h1>
+            <p className="mt-3 text-sm leading-6 text-slate-500">Siapkan ruang kerja untuk mengelola usahamu dengan lebih terarah.</p>
+          </div>
+
+        <form onSubmit={handleRegister} className="space-y-5">
+          <label className="block">
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Nama lengkap</span>
           <input
             type="text"
-            placeholder="Nama"
+            placeholder="Nama kamu"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gray-900 focus:outline-none"
+            className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
           />
+          </label>
+          <label className="block">
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Email</span>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="nama@contoh.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gray-900 focus:outline-none"
+            className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
           />
+          </label>
+          <label className="block">
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Password</span>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Minimal 6 karakter"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gray-900 focus:outline-none"
+            className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
           />
+          </label>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+            className="h-12 w-full rounded-xl bg-[#123b35] px-4 text-sm font-semibold text-white shadow-lg shadow-emerald-950/15 transition hover:bg-[#0d2f2a] focus:outline-none focus:ring-4 focus:ring-emerald-900/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Memproses..." : "Daftar"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-8 text-center text-sm text-slate-500">
           Sudah punya akun?{" "}
-          <Link href="/login" className="font-medium text-gray-900 underline">
+          <Link href="/login" className="font-semibold text-[#123b35] underline decoration-[#f4b860] decoration-2 underline-offset-4 hover:text-[#df735d]">
             Masuk
           </Link>
         </p>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
