@@ -16,6 +16,12 @@ body {
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
+.workspace-shell {
+  background-color: #f7f8f6;
+  background-image: radial-gradient(circle at 8% 0%, rgba(244, 184, 96, 0.16), transparent 25rem), radial-gradient(circle at 96% 25%, rgba(223, 115, 93, 0.09), transparent 24rem), linear-gradient(rgba(18, 59, 53, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(18, 59, 53, 0.025) 1px, transparent 1px);
+  background-size: auto, auto, 32px 32px, 32px 32px;
+}
+
 .auth-shell {
   background-color: #f5f3ed;
   background-image: radial-gradient(circle at 8% 12%, rgba(244, 184, 96, 0.22), transparent 24rem), radial-gradient(circle at 92% 88%, rgba(223, 115, 93, 0.14), transparent 26rem);
