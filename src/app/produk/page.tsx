@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
 
 interface Category {
   id: number;
@@ -246,6 +247,7 @@ export default function ProdukPage() {
   return (
     <main className="workspace-shell min-h-screen px-4 py-6 text-[#123b35] sm:px-6 sm:py-10">
       <div className="mx-auto max-w-6xl">
+        <Navbar />
         <header className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[#df735d]">
