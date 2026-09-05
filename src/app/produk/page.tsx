@@ -46,6 +46,9 @@ export default function ProdukPage() {
   const [showStockModal, setShowStockModal] = useState(false);
   const [stockProduct, setStockProduct] = useState<Product | null>(null);
   const [stockForm, setStockForm] = useState({ quantity: "", buy_price: "" });
+  const [showSellModal, setShowSellModal] = useState(false);
+  const [sellProduct, setSellProduct] = useState<Product | null>(null);
+  const [sellQuantity, setSellQuantity] = useState("");
 
   const loadCategories = useCallback(async () => {
     const res = await fetch("/api/categories");
@@ -214,6 +217,32 @@ export default function ProdukPage() {
     await loadProducts(selectedCategory);
   }
 
+  function openSellProduct(p: Product) {
+    setSellProduct(p);
+    setSellQuantity("");
+    setShowSellModal(true);
+  }
+
+  async function handleSellProduct(e: React.FormEvent) {
+    e.preventDefault();
+    if (!sellProduct || !sellQuantity) return;
+
+    const res = await fetch(`/api/products/${sellProduct.id}/transactions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity: Number(sellQuantity) }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      alert(data.error || "Gagal mencatat transaksi");
+      return;
+    }
+
+    setShowSellModal(false);
+    await loadProducts(selectedCategory);
+  }
+
   return (
     <main className="workspace-shell min-h-screen px-4 py-6 text-[#123b35] sm:px-6 sm:py-10">
       <div className="mx-auto max-w-6xl">
@@ -329,6 +358,7 @@ export default function ProdukPage() {
                         </span>
                       </td>
                       <td className="px-5 py-4 text-right sm:px-6">
+                        <button onClick={() => openSellProduct(p)} className="mr-4 font-semibold text-[#df735d] transition hover:text-[#bd4d3c]">Jual</button>
                         <button onClick={() => openAddStock(p)} className="mr-4 font-semibold text-[#26745a] transition hover:text-[#123b35]">+ Stok</button>
                         <button onClick={() => openEditProduct(p)} className="mr-4 font-semibold text-slate-500 transition hover:text-[#123b35]">Edit</button>
                         <button onClick={() => handleDeleteProduct(p.id)} className="font-semibold text-[#df735d] transition hover:text-[#bd4d3c]">Hapus</button>
@@ -488,6 +518,45 @@ export default function ProdukPage() {
                   className="rounded-xl bg-[#123b35] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0d2f2a]"
                 >
                   Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showSellModal && sellProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#123b35]/55 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-2xl border border-white/70 bg-white p-6 shadow-2xl shadow-emerald-950/20">
+            <h2 className="mb-2 text-xl font-semibold tracking-[-0.03em] text-[#123b35]">Catat Penjualan</h2>
+            <p className="mb-1 text-sm text-slate-500">{sellProduct.name}</p>
+            <p className="mb-5 text-xs text-slate-400">
+              Stok tersedia: {sellProduct.stock_qty} {sellProduct.unit} &middot; Harga: {formatRupiah(sellProduct.sell_price)}
+            </p>
+            <form onSubmit={handleSellProduct} className="space-y-3">
+              <input
+                type="number"
+                placeholder="Jumlah terjual"
+                value={sellQuantity}
+                onChange={(e) => setSellQuantity(e.target.value)}
+                required
+                min="1"
+                max={sellProduct.stock_qty}
+                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
+              />
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSellModal(false)}
+                  className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-500 hover:bg-slate-50"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-xl bg-[#df735d] px-4 py-2 text-sm font-semibold text-white hover:bg-[#bd4d3c]"
+                >
+                  Catat Penjualan
                 </button>
               </div>
             </form>
