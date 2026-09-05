@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/produk", label: "Produk" },
   { href: "/penjualan", label: "Penjualan" },
   { href: "/target", label: "Target" },
+  { href: "/laporan", label: "Laporan" },
 ];
 
 export default function Navbar() {
