@@ -10,11 +10,13 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setLoading(true);
 
     try {
@@ -32,7 +34,9 @@ export default function RegisterPage() {
         return;
       }
 
-      router.push("/login");
+      // loading sengaja tetap true agar tombol nonaktif sampai pindah halaman
+      setSuccess("Registrasi berhasil! Mengalihkan ke halaman masuk...");
+      setTimeout(() => router.push("/login?registered=1"), 1500);
     } catch {
       setError("Terjadi kesalahan, coba lagi");
       setLoading(false);
@@ -69,59 +73,68 @@ export default function RegisterPage() {
             <p className="mt-3 text-sm leading-6 text-slate-500">Siapkan ruang kerja untuk mengelola usahamu dengan lebih terarah.</p>
           </div>
 
-        <form onSubmit={handleRegister} className="space-y-5">
-          <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Nama lengkap</span>
-          <input
-            type="text"
-            placeholder="Nama kamu"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
-          />
-          </label>
-          <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Email</span>
-          <input
-            type="email"
-            placeholder="nama@contoh.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
-          />
-          </label>
-          <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Password</span>
-          <input
-            type="password"
-            placeholder="Minimal 6 karakter"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
-          />
-          </label>
+          <form onSubmit={handleRegister} className="space-y-5">
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Nama lengkap</span>
+              <input
+                type="text"
+                placeholder="Nama kamu"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Email</span>
+              <input
+                type="email"
+                placeholder="nama@contoh.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Password</span>
+              <input
+                type="password"
+                placeholder="Minimal 6 karakter"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#123b35] focus:bg-white focus:ring-4 focus:ring-emerald-900/10"
+              />
+            </label>
 
-          {error && <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+            {success && (
+              <p role="status" className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                {success}
+              </p>
+            )}
+            {error && (
+              <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </p>
+            )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="h-12 w-full rounded-xl bg-[#123b35] px-4 text-sm font-semibold text-white shadow-lg shadow-emerald-950/15 transition hover:bg-[#0d2f2a] focus:outline-none focus:ring-4 focus:ring-emerald-900/20 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? "Memproses..." : "Daftar"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="h-12 w-full rounded-xl bg-[#123b35] px-4 text-sm font-semibold text-white shadow-lg shadow-emerald-950/15 transition hover:bg-[#0d2f2a] focus:outline-none focus:ring-4 focus:ring-emerald-900/20 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Memproses..." : "Daftar"}
+            </button>
+          </form>
 
-        <p className="mt-8 text-center text-sm text-slate-500">
-          Sudah punya akun?{" "}
-          <Link href="/login" className="font-semibold text-[#123b35] underline decoration-[#f4b860] decoration-2 underline-offset-4 hover:text-[#df735d]">
-            Masuk
-          </Link>
-        </p>
+          <p className="mt-8 text-center text-sm text-slate-500">
+            Sudah punya akun?{" "}
+            <Link href="/login" className="font-semibold text-[#123b35] underline decoration-[#f4b860] decoration-2 underline-offset-4 hover:text-[#df735d]">
+              Masuk
+            </Link>
+          </p>
         </section>
       </div>
     </main>
